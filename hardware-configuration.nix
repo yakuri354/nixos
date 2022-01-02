@@ -8,6 +8,20 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  services.power-profiles-daemon.enable = true;
+  services.tlp = {
+    enable = false;
+    settings = {
+      USB_EXCLUDE_AUDIO = 1;
+      RUNTIME_PM_DRIVER_BLACKLIST = "nouveau nvidia";
+      CPU_SCALING_GOVERNOR_ON_AC = "ondemand";
+    };
+  };
+
+   services.logind.extraConfig = ''
+    HandleLidSwitchDocked=suspend
+  '';
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];

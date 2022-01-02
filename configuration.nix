@@ -7,6 +7,8 @@
       ./cachix.nix
     ];
 
+  environment.etc.hosts.mode = "0644";
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,7 +39,7 @@
 
   nix.extraOptions = ''
     binary-caches-parallel-connections = 12
-    experimental-features = nix-command flakes
+    experimental-features = nix-command flakes ca-references
   '';
 
   # Binary Cache for Haskell.nix

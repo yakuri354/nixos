@@ -14,7 +14,7 @@ in {
     iconTheme.name = "Papirus-Dark";
   };
   
-  # programs.gh.enable = true;
+  programs.gh.enable = true;
 
   programs.git = {
     enable = true;
@@ -22,20 +22,28 @@ in {
     userEmail = "2024kurlaev.nv@student.letovo.ru";
     extraConfig = {
       init.defaultBranch = "master";
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
     };
   };
+
+  programs.bash.enable = true;
 
   programs.fish = {
     enable = true;
     shellAliases = {
       ls = "exa --tree -L 1 --icons";
-      la = "exa --icons --header --long";
+      la = "exa --icons --header --long --all";
       lls = "exa --tree --icons";
     };
     shellAbbrs = {
       hm = "home-manager";
+      nsh = "nix shell nixpkgs#";
+      npi = "nix profile install nixpkgs#";
     };
-    promptInit = ''
+    
+    interactiveShellInit = ''
       function fish_greeting; end
       set -g theme_nerd_fonts yes
       set -g theme_color_scheme nord
